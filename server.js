@@ -1,37 +1,20 @@
 import express from "express";
-import fetch from "node-fetch";
-import dotenv from "dotenv";
-import cors from "cors";
 
-dotenv.config();
 const app = express();
 
-app.use(cors());
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static("."));
 
-app.post("/chat", async (req, res) => {
-  const userMessage = req.body.message;
+app.post("/chat", async (req,res)=>{
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-4.1-mini",
-      messages: [
-        { role: "system", content: "You are Aiva, a friendly helpful AI assistant." },
-        { role: "user", content: userMessage }
-      ]
-    }),
-  });
+let message = req.body.message;
 
-  const data = await response.json();
-  res.json({ reply: data.choices[0].message.content });
+let reply = "Hello, I am Aiva. You said: " + message;
+
+res.json({reply});
+
 });
 
-app.listen(3000, () => {
-  console.log("Aiva running at http://localhost:3000");
+app.listen(3000, ()=>{
+console.log("Aiva running");
 });
