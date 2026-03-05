@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Aiva AI</title>
+</head>
+
+<body>
+
+<h1>Aiva AI 🤖</h1>
+
+<input id="msg" placeholder="Talk to Aiva">
+<button onclick="send()">Send</button>
+
+<p id="reply"></p>
+
+<script>
+async function send(){
+
+let message = document.getElementById("msg").value;
+
+let res = await fetch("/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({message})
+});
+
+let data = await res.json();
+
+document.getElementById("reply").innerText = data.reply;
+
+}
+</script>
+
+</body>
+</html>
